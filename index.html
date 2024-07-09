@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+</head>
+<body>
+    <!-- Dashboard -->
+<div id="dashboard" class="container-fluid">
+    <div id="sidebar"class="col-md-2">
+        <h2>ERIPAY</h2>
+        <nav>
+            <button id="button1">Home</button>
+            <button id="button2">Invoices</button>
+            <button id="button3">Payments</button>
+            <button id="button4">Customers</button>
+            <button id="button5">Account Settings</button>
+            <button id="button6">Support</button>
+        </nav>
+    </div>
+    <div id="content">
+        <!-- Overview Section -->
+        <div id="overview">
+            <h2>Overview</h2>
+            <div id="metrics">
+                <div class="metric">
+                    <h3>Total Outstanding Invoices</h3>
+                    <p>KES/-<span id="total-outstanding">0</span></p>
+                </div>
+                <div class="metric">
+                    <h3>Total Paid Invoices</h3>
+                    <p>KES/-<span id="total-paid">0</span></p>
+                </div>
+            </div>
+            <div id="due-dates">
+                <h3>Due Dates Overview</h3>
+                <ul>
+                    <li>Upcoming: <span id="upcoming-invoices">0</span> Invoices</li>
+                    <li>Past Due: <span id="past-due-invoices">0</span> Invoices</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Placeholder data for charts and activities
+    var ctx = document.getElementById('financial-chart').getContext('2d');
+    var financialChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['January', 'February', 'March', 'April'],
+            datasets: [{
+                label: 'Outstanding Invoices',
+                data: [5000, 7000, 3000, 4000],
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }, {
+                label: 'Paid Invoices',
+                data: [2000, 3000, 1500, 2500],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    var recentActivities = [
+        'Invoice #001 paid on 2024-07-01',
+        'Invoice #002 issued on 2024-07-02',
+        'Payment of KES/-2000 received on 2024-07-03'
+    ];
+    var activityList = document.getElementById('activity-list');
+    recentActivities.forEach(function(activity) {
+        var listItem = document.createElement('li');
+        listItem.textContent = activity;
+        activityList.appendChild(listItem);
+    });
+});
+</script>
+
+
+           <!-- Invoices Section -->
+           <!DOCTYPE html>
+           <html lang="en">
+           <head>
+               <meta charset="UTF-8">
+               <meta name="viewport" content="width=device-width, initial-scale=1.0">
+               <title>Centered Invoices Section</title>
+               <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+           </head>
+           <body>
+               <div class="container">
+                   <div class="row justify-content-center">
+                       <div id="invoices" style="display: none;" class="col-md-8">
+                           <h2>Invoices</h2>
+                           <form id="search-form" onsubmit="searchInvoices(); return false;">
+                               <div class="mb-3">
+                                   <label for="business-name" class="form-label">Business Name:</label>
+                                   <input type="text" id="business-name" class="form-control" placeholder="Enter Business Name">
+                               </div>
+                               <button type="submit" class="btn btn-primary">Search</button>
+                           </form>
+                           <div class="mb-3">
+                               <input type="text" id="search-invoices" class="form-control" placeholder="Search Invoices...">
+                           </div>
+                           <table class="table">
+                               <thead>
+                                   <tr>
+                                       <th>Invoice #</th>
+                                       <th>Date Issued</th>
+                                       <th>Due Date</th>
+                                       <th>Amount</th>
+                                       <th>Status</th>
+                                       <th>Action</th>
+                                   </tr>
+                               </thead>
+                               <tbody id="invoice-list"></tbody>
+                           </table>
+                       </div>
+                   </div>
+               </div>
+           
+               <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+               <script>
+                   function searchInvoices() {
+                       var businessName = document.getElementById("business-name").value;
+                       if (businessName) {
+                           // Simulating invoice search
+                           var invoices = [
+                               { number: '001', dateIssued: '2024-01-01', dueDate: '2024-01-15', amount: '5000', status: 'Outstanding' },
+                               { number: '002', dateIssued: '2024-02-01', dueDate: '2024-02-15', amount: '7000', status: 'Outstanding' }
+                           ];
+           
+                           var invoiceList = document.getElementById("invoice-list");
+                           invoiceList.innerHTML = '';
+           
+                           invoices.forEach(function(invoice) {
+                               var row = document.createElement("tr");
+                               row.innerHTML = `
+                                   <td>${invoice.number}</td>
+                                   <td>${invoice.dateIssued}</td>
+                                   <td>${invoice.dueDate}</td>
+                                   <td>${invoice.amount}</td>
+                                   <td>${invoice.status}</td>
+                                   <td><button type="button" class="btn btn-success" onclick="payInvoice('${invoice.number}', '${invoice.amount}')">Pay</button></td>
+                               `;
+                               invoiceList.appendChild(row);
+                           });
+                       } else {
+                           alert("Please enter a business name.");
+                       }
+                   }
+           
+                   function payInvoice(invoiceNumber, amount) {
+                       document.getElementById("payment").style.display = "block";
+                       document.getElementById("invoice-number").innerText = invoiceNumber;
+                       document.getElementById("invoice-amount").innerText = amount;
+                   }
+               </script>
+           </body>
+           </html>
+           
+
+
+            <!-- Payment Section -->
+<div id="payment" style="display: none;">
+    <h2>Pay Invoice</h2>
+    <form id="invoice-form">
+        <label>
+            Invoice #:
+            <input type="text" id="invoice-number-input" placeholder="Enter Invoice Number">
+        </label>
+        <br>
+        <label>
+            Amount (KES):
+            <input type="number" id="invoice-amount-input" placeholder="Enter Amount">
+        </label>
+        <br>
+        <button type="button" onclick="addInvoice()">Add Invoice</button>
+    </form>
+    <div id="invoices-list">
+        <h3>Invoices</h3>
+        <ul id="invoices">
+            <!-- List of invoices will be added here -->
+        </ul>
+    </div>
+    <h2>Pay Invoices</h2>
+    <form id="payment-form">
+        <label>
+            Payment Method:
+            <select id="payment-method">
+                <option value="mpesa">MPESA</option>
+                <option value="cooperative">Cooperative Bank</option>
+                <option value="family-bank">Family Bank</option>
+            </select>
+        </label>
+        <br>
+        <button type="button" onclick="confirmPayment()">Confirm Payment</button>
+    </form>
+</div>
+
+<script>
+function addInvoice() {
+    var invoiceNumber = document.getElementById("invoice-number-input").value;
+    var invoiceAmount = document.getElementById("invoice-amount-input").value;
+    if (invoiceNumber && invoiceAmount) {
+        var invoiceList = document.getElementById("invoices");
+        var newInvoice = document.createElement("li");
+        newInvoice.textContent = "Invoice #" + invoiceNumber + " - Amount: KES/-" + invoiceAmount;
+        invoiceList.appendChild(newInvoice);
+        document.getElementById("invoice-number-input").value = "";
+        document.getElementById("invoice-amount-input").value = "";
+    } else {
+        alert("Please enter both invoice number and amount.");
+    }
+}
+
+function confirmPayment() {
+    var paymentMethod = document.getElementById("payment-method").value;
+    var invoices = document.getElementById("invoices").innerText;
+    if (invoices) {
+        alert("Payment method: " + paymentMethod + "\n" + "Invoices:\n" + invoices);
+    } else {
+        alert("Please add at least one invoice.");
+    }
+}
+</script>
+
+            <!-- Customers Section -->
+            <div id="customers" style="display: none;" >
+                <h2>Customers</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>                        
+                        </tr>
+                    </thead>
+                    <tbody id="customer-list"></tbody>
+                </table>
+            </div>
+
+            <!-- Account Settings Section -->
+            <div id="account-settings" style="display: none;" >
+                <h2>Account Settings</h2>
+                <form id="account-form">
+                    <input type="text" placeholder="Name" id="account-name">
+                    <input type="email" placeholder="Email" id="account-email">
+                    <input type="phone" placeholder="Phone" id="account-phone">
+                    <input type="text" placeholder="Address" id="account-address">
+                    <button type="button" onclick="updateAccount()">Update</button>
+                </form>
+            </div>
+
+            <!-- Support Section -->
+            <div id="support" style="display: none;" >
+                <h2>Support</h2>
+                <form id="support-form">
+                    <textarea placeholder="Describe your issue" id="support-issue"></textarea>
+                    <button type="button" onclick="submitSupport()">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

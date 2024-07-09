@@ -1,0 +1,54 @@
+/* General container styling */
+.container-fluid {
+    display: flex;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar styling */
+#sidebar {
+    background-color: #4e7aa7;
+    color: white;
+    width: 200px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+#sidebar h2 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+#sidebar button {
+    background-color: #284058;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 5px 0;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#sidebar button:hover {
+    background-color: #6c757d;
+}
+
+/* Content area styling */
+#content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+
